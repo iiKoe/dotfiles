@@ -25,7 +25,7 @@ font pango:DejaVu Sans Mono Book 8
 
 # Set Wallpaper
 #exec --no-startup-id feh --bg-scale .image/1920x1080-triangle-greenblue.jpg
-exec --no-startup-id feh --bg-scale .image/1920x1080-triangle-purple-colors.jpg
+exec --no-startup-id feh --bg-scale img/wallpapers/i3-wall.png
 
 # Volume Controll
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 -- +10% && killall -SIGUSR1 i3status
@@ -36,8 +36,8 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
 floating_modifier $mod
 
 # start a terminal
-#bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec --no-startup-id roxterm
+bindsym $mod+Return exec i3-sensible-terminal
+#bindsym $mod+Return exec --no-startup-id roxterm
 #bindsym $mod+Return exec --no-startup-id konsole
 
 # kill focused window

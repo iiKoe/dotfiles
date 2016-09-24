@@ -11,7 +11,8 @@ Xft.hintstyle: hintslight
 Urxvt.depth: 0
 
 URxvt.scrollBar: false
-URxvt.font: xft:DroidSansMono:size=9
+!URxvt.font: xft:DroidSansMono:size=9
+URxvt.font: xft:DejavuSansMono:size=9
 
 ! Clipboard
 
@@ -37,7 +38,7 @@ URxvt.clipboard.autocopy: true
 *cursorColor: #aeee00
 *scrollColor: #45413b
 *fadeColor: #ffffff
-*fading: 20
+!*fading: 20
 
 ! black
 *color0: #141413

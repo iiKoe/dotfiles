@@ -24,13 +24,24 @@ font pango:DejaVu Sans Mono Book 8
 # font, it doesn’t scale on retina/hidpi displays.
 
 # Set Wallpaper
-#exec --no-startup-id feh --bg-scale .image/1920x1080-triangle-greenblue.jpg
-exec --no-startup-id feh --bg-scale img/wallpapers/i3-wall.png
+exec --no-startup-id feh --bg-scale ~/img/wallpapers/current-wallpaper
+
+# Start gnome network manager
+exec --no-startup-id nm-applet
+
+#start dropbox
+exec --no-startup-id dropbox
+
+#start xfce4 power manager
+exec --no-startup-id sleep 3 && xfce4-power-manager
+
+#start Dunst
+exec --no-startup-id dunst
 
 # Volume Controll
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%-
-bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+ && pkill -SIGRTMIN+10 i3blocks
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%- && pkill -SIGRTMIN+10 i3blocks
+bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle && pkill -SIGRTMIN+10 i3blocks
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -146,14 +157,15 @@ client.urgent           #2f343a #900000 #ffffff #900000
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
         bindsym h resize shrink width 10 px or 10 ppt
-        bindsym j resize grow height 10 px or 10 ppt
-        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym j resize shrink height 10 px or 10 ppt
         bindsym l resize grow width 10 px or 10 ppt
+
+        bindsym Shift+h resize shrink width 2 px or 2 ppt
+        bindsym Shift+k resize grow height 2 px or 2 ppt
+        bindsym Shift+j resize shrink height 2 px or 2 ppt
+        bindsym Shift+l resize grow width 2 px or 2 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt

@@ -281,3 +281,4 @@ function! ChangeThemeToggle()
 	echo "Molokai Theme"
     endif
 endfunction
+

@@ -19,7 +19,8 @@ set nocompatible
 " Attempt to determine the type of a file based on its name addnd possibly its
 " contents. Use this to allow intelligent auto-indenting for each filetype,
 " and for plugins that are filetype specific.
-filetype indent plugin on
+"filetype indent plugin on
+filetype plugin indent on
 
 " Enable syntax highlighting
 syntax on
@@ -226,6 +227,16 @@ if (has("gui_running") || g:color_scheme_select == 1)
   nnoremap <F12> :call ChangeThemeToggle()<cr>
 endif
 
+
+"------------------------------------------------------------
+" The sulution below for 256color in tmux and screen also works for termite
+" Does not seem to have negative effects so did not write a 'termite' check
+""
+" https://sunaku.github.io/vim-256color-bce.html
+" Disable Background Color Erase (BCE) so that color schemes
+" work properly when Vim is used inside tmux and GNU screen.
+set t_ut=
+
 "-- Color column
 let &colorcolumn="81"
 
@@ -234,9 +245,10 @@ let &colorcolumn="81"
 "------------------------------------------------------------
 " Enable Pathogen plugin
 call pathogen#infect()
+call pathogen#helptags()
 
 "-- Taglist plugin
-filetype plugin on
+"""filetype plugin on
 let Tlist_Use_Right_Window = 1
 :nnoremap <Leader>L :TlistToggle<CR>
 

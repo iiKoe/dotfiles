@@ -22,6 +22,13 @@ font pango:DejaVu Sans Mono Book 8
 # clear in small sizes. However, its unicode glyph coverage is limited, the old
 # X core fonts rendering does not support right-to-left and this being a bitmap
 # font, it doesn’t scale on retina/hidpi displays.
+#
+
+for_window [class="^.*"] border pixel 1
+gaps inner 5
+gaps outer 5
+smart_gaps on
+smart_borders no_gaps
 
 # Set Wallpaper
 exec --no-startup-id feh --bg-scale ~/img/wallpapers/current-wallpaper
@@ -30,7 +37,7 @@ exec --no-startup-id feh --bg-scale ~/img/wallpapers/current-wallpaper
 exec --no-startup-id nm-applet
 
 #start dropbox
-exec --no-startup-id dropbox
+#exec --no-startup-id dropbox
 
 #start xfce4 power manager
 exec --no-startup-id sleep 3 && xfce4-power-manager
@@ -48,6 +55,7 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Shift+Return exec urxvt -cd "`xcwd`"
 #bindsym $mod+Return exec --no-startup-id roxterm
 #bindsym $mod+Return exec --no-startup-id konsole
 
@@ -143,7 +151,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i3?' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Window colors
 #client.background #ffffff
@@ -182,6 +190,30 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
+#bar {
+#        status_command i3blocks
+#}
 bar {
-        status_command i3blocks
+    status_command i3blocks
+
+    i3bar_command i3bar -t
+
+    position bottom
+    mode dock
+    colors {
+        #statusline #76c2d6
+        background #00000050
+
+        # Type                     border     background    text
+        focused_workspace         #272822      #272822    #55bcce
+        #focused_workspace         #76715e      #272822    #55bcce
+        #focused_workspace         #76715e      #272822    #f1ebeb
+        active_workspace          #191919      #48483e    #f1ebeb
+        inactive_workspace        #191919      #272822    #76715e
+        urgent_workspace          #191919      #191919    #c7a551
+    }
 }
+
+exec xbanish
+exec --no-startup-id compton -b
+

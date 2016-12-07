@@ -26,7 +26,7 @@ font pango:DejaVu Sans Mono Book 8
 
 for_window [class="^.*"] border pixel 1
 gaps inner 5
-gaps outer 5
+gaps outer 1
 smart_gaps on
 smart_borders no_gaps
 
@@ -36,8 +36,11 @@ exec --no-startup-id feh --bg-scale ~/img/wallpapers/current-wallpaper
 # Start gnome network manager
 exec --no-startup-id nm-applet
 
+#start blueman bluetooth manager
+exec --no-startup-id blueman-applet
+
 #start dropbox
-#exec --no-startup-id dropbox
+exec --no-startup-id dropbox
 
 #start xfce4 power manager
 exec --no-startup-id sleep 3 && xfce4-power-manager
@@ -45,19 +48,31 @@ exec --no-startup-id sleep 3 && xfce4-power-manager
 #start Dunst
 exec --no-startup-id dunst
 
+#start libinput-gestures
+exec --no-startup-id libinput-gestures-setup start
+
+#start compton
+exec --no-startup-id compton -b
+
+#start xbanish (hide cursor while typing)
+exec --no-startup-id xbanish
+
+
 # Volume Controll
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+ && pkill -SIGRTMIN+10 i3blocks
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%- && pkill -SIGRTMIN+10 i3blocks
 bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle && pkill -SIGRTMIN+10 i3blocks
 
+#Brightness Controll
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5 && pkill -SIGRTMIN+10 i3blocks
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5 && pkill -SIGRTMIN+10 i3blocks
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Shift+Return exec urxvt -cd "`xcwd`"
-#bindsym $mod+Return exec --no-startup-id roxterm
-#bindsym $mod+Return exec --no-startup-id konsole
+bindsym $mod+Return exec termite
+bindsym $mod+Shift+Return exec termite -d "`xcwd`"
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -76,10 +91,10 @@ bindsym $mod+l focus right
 bindsym $mod+h focus left
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
+#bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+#bindsym $mod+Right focus right
 
 # move focused window
 bindsym $mod+Shift+j move down
@@ -145,6 +160,12 @@ bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
+
+# Switch workspace
+bindsym $mod+Left workspace prev
+bindsym $mod+Right workspace next
+#bindsym $mod+Shift+Left move left
+#bindsym $mod+Shift+Right move right
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -214,6 +235,4 @@ bar {
     }
 }
 
-exec xbanish
-exec --no-startup-id compton -b
 

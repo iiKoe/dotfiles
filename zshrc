@@ -40,5 +40,6 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 export KEYTIMEOUT=1
 
-export PATH=$PATH:/usr/local/avr8-gnu-toolchain-linux_x86_64/bin
-export PATH=$PATH:/opt/android-studio/bin
+export TERM="xterm"
+
+xset -b

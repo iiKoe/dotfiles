@@ -1,0 +1,3 @@
+# Ignore VIM plugins installed by Vundle, but do track Vundle.vim
+vim/bundle/*
+!vim/bundle/Vundle.vim

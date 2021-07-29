@@ -76,6 +76,42 @@ Plugin 'jlanzarotta/bufexplorer'
 " https://github.com/tpope/vim-fugitive
 Plugin 'tpope/vim-fugitive'
 
+" ack.vim
+" https://github.com/mileszs/ack.vim
+Plugin 'mileszs/ack.vim'
+
+" YouCompleteMe
+" https://github.com/Valloric/YouCompleteMe#linux-64-bit
+" NB. Requires a compiled component
+Plugin 'Valloric/YouCompleteMe'
+
+" LLVM IR
+" https://github.com/rhysd/vim-llvm
+Plugin 'rhysd/vim-llvm'
+
+" Clang formatter
+" https://github.com/rhysd/vim-clang-format
+Plugin 'rhysd/vim-clang-format'
+
+" vim-operator-user
+" https://github.com/kana/vim-operator-user
+" Plugin 'kana/vim-operator-user'
+
+" DrawIt! ASCII flow diagram creator
+" https://www.vim.org/scripts/script.php?script_id=40
+" Plugin 'DrawIt'
+
+" Goyo - Disctraction-free writing in Vim
+" https://github.com/junegunn/goyo.vim
+"Plugin 'junegunn/goyo.vim'
+
+" vim-cmake
+" https://github.com/cdelledonne/vim-cmake
+Plugin 'cdelledonne/vim-cmake'
+
+" vim-addons-signs
+" Adds signs to the quickfix list (used in a custom script)
+"Plugin 'MarcWeber/vim-addon-signs'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -183,7 +219,7 @@ map Y y$
 " Map <C-L> (redraw screen) to also turn off search highlighting until the
 " next search
 "nnoremap <C-R> :nohl<CR><C-L>
-map <Leader>r :nohl<CR><C-L>
+map <Leader>r :nohl<CR>
 
 " Don't use Ex mode, use Q for formatting
 map Q gq
@@ -192,14 +228,19 @@ map Q gq
 inoremap <C-U> <C-G>u<C-U>
 
 " Tab navigation
-:nnoremap <Tab> :tabn<CR>
-:nnoremap <S-Tab> :tabp<CR>
+:nnoremap L :tabn<CR>
+:nnoremap H :tabp<CR>
+:nnoremap <Leader>T :tabnew<CR>
 
 " Split movement
 map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
+
+" Big step movement
+nnoremap J <c-d>
+nnoremap K <c-u>
 
 " easier moving of code blocks
 " Try to go into visual mode (v), thenselect several lines of code here and
@@ -223,15 +264,31 @@ function! SystemClipboardToggle()
     endif
 endfunction
 
+" YouCompleteMe mappings
+" nnoremap <leader>jd :YcmCompleter GoTo<CR>
+
+" Clang format
+"map <C-f> :pyf /usr/share/clang/clang-format.py<CR>
+"imap <C-f> <c-o>:pyf /usr/share/clang/clang-format.py<CR>
+
+" Completion mapping
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+"inoremap <expr> j pumvisible() ? "\<C-N>" : "j"
+"inoremap <expr> k pumvisible() ? "\<C-P>" : "k"
+inoremap <expr> <C-J> pumvisible() ? "\<C-N>" : "<C-J>"
+inoremap <expr> <C-K> pumvisible() ? "\<C-P>" : "<C-K>"
+"set completeopt=longest
 
 "------------------------------------------------------------
 "------------------------ Potential settings ----------------
 "------------------------------------------------------------
 " In many terminal emulators the mouse works just fine, thus enable it.
-if has('mouse')
-  set mouse=a
-  set mousemodel=popup
-endif
+"if has('mouse')
+"  set mouse=a
+"  set mousemodel=popup
+"endif
+set mouse=a
+set ttymouse=sgr
 
 if has('cscope')
   set cscopequickfix=s-,d-,c-,t-,e-,i-
@@ -253,7 +310,7 @@ autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 
 " Trim trailing spaces on buf write
-autocmd BufWritePre *.[ch]
+autocmd BufWritePre *.[ch],*.cpp,*.cc,*.hpp,*.rs
       \ execute "normal! m'" |
       \ %substitute/ \+$//e |
       \ execute "normal! g`'"
@@ -351,4 +408,29 @@ let g:EasyMotion_smartcase = 1
 let g:syntastic_mode_map = { "mode": "active",
             \ "active_filetypes": [],
             \ "passive_filetypes": ["python"] }
+" Set the Syntastic configuration file to .syntastic_config
+let g:syntastic_c_config_file = '.syntastic_config'
 
+" YouCompleteMe config
+let g:ycm_clangd_args = ['--compile-commands-dir=./build']
+set completeopt-=preview
+
+" YouCompleteMe mappings
+nnoremap <Leader>g :YcmCompleter GoTo<CR>
+nnoremap <Leader>G :YcmCompleter GoToImprecise<CR>
+nnoremap <Leader>d :YcmShowDetailedDiagnostic<CR>
+nnoremap <Leader>F :YcmCompleter FixIt<CR>
+" Formatting
+autocmd FileType c,cpp,objc,h,hpp nnoremap <buffer><Leader>fm :<C-u>:YcmCompleter Format<CR>
+autocmd FileType c,cpp,objc,h,hpp vnoremap <buffer><Leader>fm :YcmCompleter Format<CR>
+
+
+
+" Configure build
+"let &makeprg = 'cd "build" && make $*'
+"autocmd FileType c,cpp,objc,h nmap <Leader>m :make<CR>
+"autocmd FileType c,cpp,objc,h nmap <Leader>M :make -j<CR>
+
+
+set exrc
+set secure

@@ -70,10 +70,10 @@ return packer.startup(function(use)
   use {
     'phaazon/hop.nvim',
     branch = 'v1', -- optional but strongly recommended
-    config = function()
-      -- you can configure Hop the way you like here; see :h hop-config
-      require'hop'.setup { keys='asdfghjkl;qwertyuiopzxcvbnm' }
-    end
+    --config = function()
+    --  -- you can configure Hop the way you like here; see :h hop-config
+    --  require'hop'.setup { keys='asdfghjkl;qwertyuiopzxcvbnm' }
+    --end
   }
 
   -- Bufexplorer
@@ -87,17 +87,6 @@ return packer.startup(function(use)
   if PACKER_BOOTSTRAP then
     require('packer').sync()
   end
-
-  --- Plugin configurations
-  require('autocomplete.setup')
-  require('lspconfig')
-  require'nvim-tree'.setup {
-    open_on_setup       = false,
-    open_on_tab         = true,
-    git = {
-        ignore = false,
-    },
-  }
 
 end)
 

@@ -100,3 +100,25 @@ nmap("<leader>p", ":lua SystemClipboardToggle()<CR>")
 --https://www.notonlycode.org/neovim-lua-config/
 --Config not finished, need to auto load stuff etc
 require('user.plugins')
+
+--- Plugin configurations
+local _, _ = pcall(require, 'autocomplete.setup')
+
+local _, _ = pcall(require, 'lspconfig')
+
+local ok, nvim_tree = pcall(require, 'nvim-tree')
+if ok then
+  nvim_tree.setup {
+    open_on_setup       = false,
+    open_on_tab         = true,
+    git = {
+        ignore = false,
+    },
+  }
+end
+
+local ok, hop = pcall(require, 'hop')
+if ok then
+  hop.setup { keys='asdfghjkl;qwertyuiopzxcvbnm' }
+end
+

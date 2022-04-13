@@ -82,6 +82,17 @@ return packer.startup(function(use)
   -- Easyvim popup
   use 'kdheepak/lazygit.nvim'
 
+  --- Plugin configurations
+  require('autocomplete.setup')
+  require('lspconfig')
+  require'nvim-tree'.setup {
+    open_on_setup       = false,
+    open_on_tab         = true,
+    git = {
+        ignore = false,
+    },
+  }
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if PACKER_BOOTSTRAP then

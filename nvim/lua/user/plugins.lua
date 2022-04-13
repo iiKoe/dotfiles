@@ -15,14 +15,6 @@ vim.cmd([[
   augroup end
 ]])
 
-require'nvim-tree'.setup {
-  open_on_setup       = false,
-  open_on_tab         = true,
-  git = {
-      ignore = false,
-  },
-}
-
 -- Use a protected call so we don't error out on first use
 local status_ok, packer = pcall(require, "packer")
 if not status_ok then

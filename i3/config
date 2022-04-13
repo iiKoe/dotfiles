@@ -9,13 +9,14 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod1
+#set $mod Mod1
+set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:DejaVu Sans Mono Book 8
+font pango:DejaVu Sans Mono Book 10
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -24,17 +25,27 @@ font pango:DejaVu Sans Mono Book 8
 # font, it doesn’t scale on retina/hidpi displays.
 #
 
-for_window [class="^.*"] border pixel 1
+for_window [class="^.*"] border pixel 2
 gaps inner 5
 gaps outer 1
 smart_gaps on
 smart_borders no_gaps
 
+# Let VIM take focus
+for_window [class="Termite"] focus_on_window_activation focus
+
+# Set the screen DPI for 4k
+exec xrandr --dpi 120
+
 # Set Wallpaper
-exec --no-startup-id feh --bg-scale ~/img/wallpapers/current-wallpaper
+#exec --no-startup-id feh --bg-fill ~/Images/solarized-wallpaper-vim.png
+exec --no-startup-id feh --bg-scale ~/Images/xwing-wallpaper-4k.jpeg
 
 # Start gnome network manager
 exec --no-startup-id nm-applet
+
+#start volume tray icon
+exec --no-startup-id volumeicon
 
 #start blueman bluetooth manager
 exec --no-startup-id blueman-applet
@@ -42,8 +53,19 @@ exec --no-startup-id blueman-applet
 #start dropbox
 exec --no-startup-id dropbox
 
+#start mattermost
+# Disabled because it can not start minimized because electron is shit
+#exec --no-startup-id mattermost-desktop
+
+#start telegram
+exec --no-startup-id telegram-desktop -startintray
+
+#start skype
+#exec --no-startup-id skypeforlinux
+
 #start xfce4 power manager
-exec --no-startup-id sleep 3 && xfce4-power-manager
+#exec --no-startup-id sleep 3 && xfce4-power-manager
+exec --no-startup-id xfce4-power-manager
 
 #start Dunst
 exec --no-startup-id dunst
@@ -52,33 +74,62 @@ exec --no-startup-id dunst
 #exec --no-startup-id libinput-gestures-setup start
 
 #start compton
-exec --no-startup-id compton -b
+#exec --no-startup-id compton -b
+exec --no-startup-id picom --no-fading-openclose --glx-no-stencil --vsync --experimental-backends -b
+
+#start clipboard manager
+exec --no-startup-id xfce4-clipman
 
 #start xbanish (hide cursor while typing)
 #exec --no-startup-id xbanish
 
-#map capslock to backspace
-exec_always --no-startup-id setxkbmap -option caps:backspace && setxkbmap -option shift:both_capslock && xmodmap -e "clear Lock"
+# Remap Esc and Caps
+#exec_always --no-startup-id ~/scripts/keyboard-remap.sh
+exec_always --no-startup-id ~/scripts/mouse-scroll-tackball.sh
 
 # Volume Controll
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+ && pkill -SIGRTMIN+10 i3blocks
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%- && pkill -SIGRTMIN+10 i3blocks
-bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle && pkill -SIGRTMIN+10 i3blocks
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse set 'Master' 5%+ && pkill -SIGRTMIN+10 i3blocks
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse set 'Master' 5%- && pkill -SIGRTMIN+10 i3blocks
+bindsym XF86AudioMute exec --no-startup-id amixer-D pulse set 'Master' toggle && pkill -SIGRTMIN+10 i3blocks
 
 #Brightness Controll
-bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5 && pkill -SIGRTMIN+10 i3blocks
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5 && pkill -SIGRTMIN+10 i3blocks
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10 && pkill -SIGRTMIN+10 i3blocks
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10 && pkill -SIGRTMIN+10 i3blocks
+#bindkey 225 exec --no-startup-id xbacklight -inc 1 && pkill -SIGRTMIN+10 i3blocks
+#bindkey 224 exec --no-startup-id xbacklight -dec 1 && pkill -SIGRTMIN+10 i3blocks
+
+# Suspend with the Pause key
+bindsym Pause exec --no-startup-id systemctl suspend
+
+# Lock with ScrLk key
+bindsym Scroll_Lock exec --no-startup-id i3lock
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+
 # start a terminal
-bindsym $mod+Return exec termite
-bindsym $mod+Shift+Return exec termite -d "`xcwd`"
-bindsym $mod+Shift+d exec termite -e "ranger"
+#bindsym $mod+Return exec termite -t "Termite" -e fish
+#bindsym $mod+Shift+Return exec termite -d "`xcwd`" -t "Termite"
+#bindsym $mod+Shift+d exec termite -e "ranger"
+#bindsym $mod+Shift+v exec termite -d "`xcwd`" -e "vim" -t "Termite"
+
+#bindsym $mod+Return exec alacritty -e fish
+#bindsym $mod+Shift+Return exec alacritty --working-directory="`xcwd`" -e fish
+#bindsym $mod+Shift+d exec alacritty -e "ranger"
+#bindsym $mod+Shift+v exec alacritty --working-directory="`xcwd`" -e "vim"
+
+bindsym $mod+Return exec kitty -e fish
+bindsym $mod+Shift+Return exec kitty -d="`xcwd`" -e fish
+bindsym $mod+Shift+d exec kitty -e "ranger"
+bindsym $mod+Shift+v exec kitty -d="`xcwd`" -e "vim"
+
+# Open thunar
+bindsym $mod+Shift+f exec --no-startup-id thunar
 
 # Toggle second monitor
-bindsym $mod+Shift+s exec ~/scripts/mons-toggle
+# Moved to mode
+# bindsym $mod+Shift+s exec ~/scripts/mons-toggle
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -88,7 +139,15 @@ bindsym $mod+Shift+q kill
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+#bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+## Replaced by ROFI
+bindsym $mod+d exec --no-startup-id rofi -show drun -theme "Paper" -show-icons -icon-theme "Papirus" -font "DejaVu Sans Mono Book 15"
+bindsym $mod+Shift+Tab exec --no-startup-id rofi -modi window -show window -theme "Paper" -show-icons -icon-theme "Papirus" -font "DejaVu Sans Mono Book 15"
+bindsym $mod+Tab workspace back_and_forth
+
+# Open Tmux server selector
+bindsym $mod+t exec --no-startup-id  rofi -theme "Paper" -show fb -modi "fb:~/scripts/delft-server-tmux-list.sh" -font "DejaVu Sans Mono Book 12"
 
 # change focus
 bindsym $mod+j focus down
@@ -129,7 +188,7 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+space floating toggle, move absolute position center
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -149,8 +208,67 @@ bindsym $mod+p scratchpad show
 # Show termite (terminal) scratchpad
 bindsym $mod+o [class="Termite"] scratchpad show
 
+# Calculator button opens speedcrunch
+for_window [class="SpeedCrunch"] floating enable, move absolute position center
+bindsym XF86Calculator exec --no-startup-id speedcrunch
+
+# PrintScrn button opens xfce4-screenshooter
+bindsym Print exec --no-startup-id xfce4-screenshooter
+
+# Open xournalpp note app
+bindsym $mod+Shift+n exec --no-startup-id  xournalpp
+
+# Configure drawing tablet
+bindsym $mod+Shift+t exec --no-startup-id ~/scripts/drawing-tablet-setup.sh
+
+# Toggle focussed (clarity) mode
+bindsym $mod+c exec --no-startup-id ~/devel/i3/tools/i3-focus.sh/i3wm-focus
 # focus the child container
 #bindsym $mod+d focus child
+
+# Open i3-winmotion
+bindsym $mod+z exec --no-startup-id ~/devel/i3/tools/i3-winmotion/bin/i3-winmotion -o -w -s 120
+
+# Play the clipboard content with mpv (for example a YouTube url)
+bindsym $mod+m exec --no-startup-id mpv "$(xclip -o)"
+
+# Enable redshift
+bindsym $mod+i exec --no-startup-id redshift -P -O 5500
+
+# Disable redshift
+bindsym $mod+Shift+i exec --no-startup-id redshift -P -x
+
+# Mod number bindings
+bindsym $mod+Control+1 exec --no-startup-id pavucontrol
+bindsym $mod+Control+2 exec --no-startup-id nm-connection-editor
+bindsym $mod+Control+3 exec --no-startup-id blueman-manager
+
+bindsym $mod+Control+6 exec --no-startup-id thunar "`xcwd`"
+bindsym $mod+Control+7 exec --no-startup-id thunar
+bindsym $mod+Control+8 exec --no-startup-id firefox
+
+bindsym XF86Launch5 exec --no-startup-id thunar
+bindsym XF86Tools exec --no-startup-id firefox
+
+
+# Default window properties
+# Make octave figures float
+for_window [title="Figure*"] floating enable, move absolute position center
+
+# ClipSay opens floating
+for_window [title="ClipSay"] floating enable, move absolute position center
+
+# Keeypassxc opens floating
+for_window [title="KeePassXC"] floating enable, move absolute position center
+
+# pavucontrol floating
+for_window [title="Volume Control"] floating enable, move absolute position center
+
+# Bluetooth manager floating
+for_window [title="Bluetooth Devices"] floating enable, move absolute position center
+
+# Wifi manager floating
+for_window [title="Network Connections"] floating enable, move absolute position center
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -184,6 +302,8 @@ bindsym $mod+Right workspace next
 
 bindsym $mod+Control+h move workspace to output left
 bindsym $mod+Control+l move workspace to output right
+bindsym $mod+Control+j move workspace to output down
+bindsym $mod+Control+k move workspace to output up
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -204,10 +324,10 @@ client.urgent           #2f343a #900000 #ffffff #900000
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
 
-        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym l resize shrink width 10 px or 10 ppt
         bindsym k resize grow height 10 px or 10 ppt
         bindsym j resize shrink height 10 px or 10 ppt
-        bindsym l resize grow width 10 px or 10 ppt
+        bindsym h resize grow width 10 px or 10 ppt
 
         bindsym Shift+h resize shrink width 2 px or 2 ppt
         bindsym Shift+k resize grow height 2 px or 2 ppt
@@ -226,6 +346,41 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+
+# Change the gap
+mode "gapsize" {
+        # These bindings trigger as soon as you enter the resize mode
+        bindsym h gaps horizontal current plus 20
+        bindsym l gaps horizontal current minus 20
+        bindsym j gaps vertical current plus 20
+        bindsym k gaps vertical current minus 20
+
+        bindsym n gaps outer current plus 20
+        bindsym m gaps outer current minus 20
+
+        bindsym g gaps outer current set 1
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+bindsym $mod+g mode "gapsize"
+
+set $displayMode "Set display mode [w]ork [l]aptop [o]ffice"
+bindsym $mod+Shift+s mode $displayMode
+mode $displayMode {
+    bindsym w exec "~/.screenlayout/layout-work.sh"; \
+        mode "default"
+
+    bindsym l exec "~/.screenlayout/layout-laptop.sh"; \
+        mode "default"
+
+    bindsym o exec "~/.screenlayout/layout-office.sh"; \
+        mode "default"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
 
 bar {
     status_command i3blocks
@@ -246,6 +401,8 @@ bar {
         inactive_workspace        #191919      #272822    #76715e
         urgent_workspace          #191919      #191919    #c7a551
     }
+
+    tray_output primary
 }
 
 

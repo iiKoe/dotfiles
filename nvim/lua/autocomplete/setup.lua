@@ -64,9 +64,12 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 -- The following example advertise capabilities to `clangd`.
+local util = require 'lspconfig/util'
 require'lspconfig'.clangd.setup {
   capabilities = capabilities,
   on_attach = on_attach,
+  root_dir = util.root_pattern('build'),
+  cmd = {'clangd', '--compile-commands-dir=./build'}
 }
 
 require'lspconfig'.sumneko_lua.setup {

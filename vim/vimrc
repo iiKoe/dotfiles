@@ -83,7 +83,7 @@ Plugin 'mileszs/ack.vim'
 " YouCompleteMe
 " https://github.com/Valloric/YouCompleteMe#linux-64-bit
 " NB. Requires a compiled component
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 
 " LLVM IR
 " https://github.com/rhysd/vim-llvm

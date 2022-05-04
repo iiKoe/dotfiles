@@ -71,7 +71,7 @@ require'lspconfig'.clangd.setup {
   capabilities = capabilities,
   on_attach = on_attach,
   root_dir = util.root_pattern('build'),
-  cmd = {'clangd', '--compile-commands-dir=./build'}
+  cmd = {'clangd', '--compile-commands-dir=./build', '--completion-style=detailed'}
 }
 
 require'lspconfig'.sumneko_lua.setup {
